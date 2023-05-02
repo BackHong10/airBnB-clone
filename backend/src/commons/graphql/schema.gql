@@ -1,0 +1,165 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type starbucks {
+  number: Int!
+  menu: String!
+  price: Int!
+  kcal: Int!
+  saturated_fat: Int!
+  protein: Int!
+  salt: Int!
+  sugar: Int!
+  caffeine: Int!
+}
+
+type RoomCategory {
+  id: String!
+  category: String!
+}
+
+type RoomCheckInOut {
+  id: String!
+  checkIn: DateTime!
+  checkout: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type RoomFacil {
+  id: String!
+  bed: Int!
+  bedroom: Int!
+  bathroom: Int!
+}
+
+type User {
+  id: String!
+  name: String!
+  birth: DateTime!
+  email: String!
+  point: Int!
+}
+
+type Payment {
+  id: String!
+  pay_status: POINT_TRANSACTION_STATUS_ENUM!
+  amount: Int!
+  impUid: String!
+  user: User!
+  cratedAt: DateTime!
+}
+
+enum POINT_TRANSACTION_STATUS_ENUM {
+  PAYMENT
+  CANCEL
+}
+
+type RoomLocation {
+  id: String!
+  location: String!
+}
+
+type RoomTags {
+  id: String!
+  name: String!
+  room: [Room!]!
+}
+
+type Room {
+  id: String!
+  name: String!
+  price: String!
+  user: User!
+  roomCheckInOut: RoomCheckInOut!
+  payment: Payment!
+  roomLocation: RoomLocation!
+  roomCategory: RoomCategory!
+  roomFacil: RoomFacil!
+  roomTags: [RoomTags!]!
+}
+
+type Query {
+  fetchStarbucks: [starbucks!]
+  fetchRooms: [Room!]!
+  fetchRoom(roomId: String!): Room!
+  fetchRoomsWithDeleted: [Room!]!
+  fetchCategory: [RoomCategory!]!
+  fetchUsers: [User!]!
+  fetchUser(email: String!): User!
+  fetchLoginUser: User!
+}
+
+type Mutation {
+  createStarbucks(createStarbucksInput: CreateStarbucksInput!): String!
+  createRoom(createRoomsInput: CreateRoomsInput!, imageurls: [String!]!): Room!
+  updateRooms(roomId: String!, updateRoomsInput: UpdateRoomsInput!, imageurls: [String!]!): Room!
+  deleteRoom(roomId: String!): Boolean!
+  restoreProduct(roomId: String!): Boolean!
+  createRoomCategory(category: String!): RoomCategory!
+  createUser(email: String!, birth: DateTime!, password: String!, name: String!): User!
+  updateUser(email: String!, birth: DateTime!, password: String!, name: String!): User!
+  deleteUser(userId: String!): Boolean!
+  updateLoginUser(password: String!): Boolean!
+  deleteLoginUser: Boolean!
+  login(email: String!, password: String!): String!
+  restoreAccessToken: String!
+  logout: String!
+  createPayment(impUid: String!, amount: Int!): Payment!
+  cancelPayment(impUid: String!, amount: Int!): Payment!
+  uploadFile(files: [Upload!]!): [String!]!
+}
+
+input CreateStarbucksInput {
+  menu: String!
+  price: Int!
+  kcal: Int!
+  saturated_fat: Int!
+  protein: Int!
+  salt: Int!
+  sugar: Int!
+  caffeine: Int!
+}
+
+input CreateRoomsInput {
+  name: String!
+  price: Int!
+  roomCheckInOut: RoomCheckInOutInput!
+  roomFacil: RoomFacilInput!
+  roomTags: [String!]!
+  roomLocation: RoomLocationInput!
+}
+
+input RoomCheckInOutInput {
+  id: String
+  checkIn: DateTime
+  checkout: DateTime
+}
+
+input RoomFacilInput {
+  id: String
+  bed: Int
+  bedroom: Int
+  bathroom: Int
+}
+
+input RoomLocationInput {
+  id: String
+  location: String
+}
+
+input UpdateRoomsInput {
+  name: String
+  price: Int
+  roomCheckInOut: RoomCheckInOutInput
+  roomFacil: RoomFacilInput
+  roomTags: [String!]
+  roomLocation: RoomLocationInput
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
